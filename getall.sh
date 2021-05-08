@@ -6,3 +6,7 @@ git submodule init
 git submodule update --recursive
 
 git pull --recurse-submodules
+
+
+# .rst editor
+apt install retext
