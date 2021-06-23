@@ -1,0 +1,17 @@
+e1000 options:
+  acpi-index=<uint32>    -  (default: 0)
+  addr=<int32>           - Slot and optional function number, example: 06.0 or 06 (default: -1)
+  autonegotiation=<bool> - on/off (default: true)
+  bootindex=<int32>
+  extra_mac_registers=<bool> - on/off (default: true)
+  failover_pair_id=<str>
+  mac=<str>              - Ethernet 6-byte MAC Address, example: 52:54:00:12:34:56
+  migrate_tso_props=<bool> - on/off (default: true)
+  mitigation=<bool>      - on/off (default: true)
+  multifunction=<bool>   - on/off (default: false)
+  netdev=<str>           - ID of a netdev to use as a backend
+  rombar=<uint32>        -  (default: 1)
+  romfile=<str>
+  romsize=<uint32>       -  (default: 4294967295)
+  x-pcie-extcap-init=<bool> - on/off (default: true)
+  x-pcie-lnksta-dllla=<bool> - on/off (default: true)

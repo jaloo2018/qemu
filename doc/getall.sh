@@ -12,3 +12,8 @@ wget https://www.kernel.org/doc/ols/2007/ols2007v1-pages-225-230.pdf
 
 # Improving the QEMU Event Loop
 wget events17.linuxfoundation.org/sites/events/files/slides/Improving\ the\ QEMU\ Event\ Loop\ -\ 3.pdf
+
+# QEMU readthedoc stable
+firefox https://qemu.readthedocs.io/_/downloads/en/stable/pdf/
+# QEMU readthedoc latest
+firefox https://readthedocs.org/projects/qemu/downloads/pdf/latest/
