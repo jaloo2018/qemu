@@ -1,0 +1,129 @@
+b main
+b qemu_thread_create
+
+# get_thread: call_rcu
+(gdb) bt
+#0  0x0000555555f229e6 in qemu_thread_create
+    (thread=0x7fffffffd710, name=0x55555611b34c "call_rcu", start_routine=0x555555f3c784 <call_rcu_thread>, arg=0x0, mode=1)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-thread-posix.c:527
+#1  0x0000555555f3cb2b in rcu_init_complete ()
+    at /home/jaloo/v/qemu/qemu/qemu/util/rcu.c:326
+#2  0x0000555555f3cc6b in rcu_init ()
+    at /home/jaloo/v/qemu/qemu/qemu/util/rcu.c:382
+#3  0x0000555555f6b4fd in __libc_csu_init ()
+#4  0x00007ffff47397cf in __libc_start_main (main=
+    0x555555eb9eeb <main>, argc=21, argv=0x7fffffffd858, init=
+    0x555555f6b4b0 <__libc_csu_init>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffd848) at ../csu/libc-start.c:247
+#5  0x0000555555818149 in _start ()
+
+# get_thread: main
+(gdb) bt
+#0  0x0000555555eb9efe in main
+    (argc=21, argv=0x7fffffffd858, envp=0x7fffffffd908)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48
+
+# get_thread: CPU 0/TCG
+(gdb) bt
+#0  0x0000555555f229e6 in qemu_thread_create
+    (thread=0x555556c76d20, name=0x7fffffffce60 "CPU 0/TCG", start_routine=0x555555872f28 <qemu_tcg_cpu_thread_fn>, arg=0x7fff6eef5090, mode=0)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-thread-posix.c:527
+#1  0x00005555558737ed in qemu_tcg_init_vcpu (cpu=0x7fff6eef5090)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:1955
+#2  0x0000555555873d0c in qemu_init_vcpu (cpu=0x7fff6eef5090)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:2082
+#3  0x00005555559ec279 in arm_cpu_realizefn
+    (dev=0x7fff6eef5090, errp=0x7fffffffd068)
+    at /home/jaloo/v/qemu/qemu/qemu/target/arm/cpu.c:1795
+#4  0x0000555555ae2d95 in device_set_realized
+    (obj=0x7fff6eef5090, value=true, errp=0x7fffffffd240)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/qdev.c:891
+#5  0x0000555555dce510 in property_set_bool (obj=0x7fff6eef5090, v=
+    0x555556b91260, name=0x555555fa7223 "realized", opaque=0x555556805770, errp=0x7fffffffd240) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:2238
+#6  0x0000555555dcc349 in object_property_set (obj=0x7fff6eef5090, v=
+    0x555556b91260, name=0x555555fa7223 "realized", errp=0x7fffffffd240)
+    at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1324
+#7  0x0000555555dcfce7 in object_property_set_qobject
+    (obj=0x7fff6eef5090, value=0x555556b90ee0, name=0x555555fa7223 "realized", errp=0x7fffffffd240) at /home/jaloo/v/qemu/qemu/qemu/qom/qom-qobject.c:26
+--Type <RET> for more, q to quit, c to continue without paging--
+#8  0x0000555555dcc62e in object_property_set_bool
+    (obj=0x7fff6eef5090, value=true, name=0x555555fa7223 "realized", errp=0x7fffffffd240) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1390
+#9  0x0000555555992e5f in fsl_imx6_realize
+    (dev=0x7fff6eef5010, errp=0x7fffffffd2a8)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/fsl-imx6.c:144
+#10 0x0000555555ae2d95 in device_set_realized
+    (obj=0x7fff6eef5010, value=true, errp=0x7fffffffd470)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/qdev.c:891
+#11 0x0000555555dce510 in property_set_bool (obj=0x7fff6eef5010, v=
+    0x555556b91160, name=0x555555f9e68c "realized", opaque=0x555556805770, errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:2238
+#12 0x0000555555dcc349 in object_property_set (obj=0x7fff6eef5010, v=
+    0x555556b91160, name=0x555555f9e68c "realized", errp=0x7fffffffd470)
+    at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1324
+#13 0x0000555555dcfce7 in object_property_set_qobject
+    (obj=0x7fff6eef5010, value=0x555556b91000, name=0x555555f9e68c "realized", errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/qom-qobject.c:26
+#14 0x0000555555dcc62e in object_property_set_bool
+    (obj=0x7fff6eef5010, value=true, name=0x555555f9e68c "realized", errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1390
+#15 0x00005555559681b0 in sabrelite_init (machine=0x555556a5fa20)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/sabrelite.c:55
+--Type <RET> for more, q to quit, c to continue without paging--
+#16 0x0000555555aeff35 in machine_run_board_init (machine=0x555556a5fa20)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/machine.c:1140
+#17 0x00005555559c5b91 in qemu_init
+    (argc=21, argv=0x7fffffffd858, envp=0x7fffffffd908)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:4346
+#18 0x0000555555eb9f13 in main
+    (argc=21, argv=0x7fffffffd858, envp=0x7fffffffd908)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48
+
+
+# get_thread: CPU 1/TCG
+(gdb) bt
+#0  0x0000555555f229e6 in qemu_thread_create
+    (thread=0x555556d844c0, name=0x7fffffffce60 "CPU 1/TCG", start_routine=0x555555872f28 <qemu_tcg_cpu_thread_fn>, arg=0x7fff6eeffcd0, mode=0)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-thread-posix.c:527
+#1  0x00005555558737ed in qemu_tcg_init_vcpu (cpu=0x7fff6eeffcd0)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:1955
+#2  0x0000555555873d0c in qemu_init_vcpu (cpu=0x7fff6eeffcd0)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:2082
+#3  0x00005555559ec279 in arm_cpu_realizefn
+    (dev=0x7fff6eeffcd0, errp=0x7fffffffd068)
+    at /home/jaloo/v/qemu/qemu/qemu/target/arm/cpu.c:1795
+#4  0x0000555555ae2d95 in device_set_realized
+    (obj=0x7fff6eeffcd0, value=true, errp=0x7fffffffd240)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/qdev.c:891
+#5  0x0000555555dce510 in property_set_bool (obj=0x7fff6eeffcd0, v=
+    0x555556b91260, name=0x555555fa7223 "realized", opaque=0x555556805770, errp=0x7fffffffd240) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:2238
+#6  0x0000555555dcc349 in object_property_set (obj=0x7fff6eeffcd0, v=
+    0x555556b91260, name=0x555555fa7223 "realized", errp=0x7fffffffd240)
+    at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1324
+#7  0x0000555555dcfce7 in object_property_set_qobject
+    (obj=0x7fff6eeffcd0, value=0x555556b90ee0, name=0x555555fa7223 "realized", errp=0x7fffffffd240) at /home/jaloo/v/qemu/qemu/qemu/qom/qom-qobject.c:26
+--Type <RET> for more, q to quit, c to continue without paging--
+#8  0x0000555555dcc62e in object_property_set_bool
+    (obj=0x7fff6eeffcd0, value=true, name=0x555555fa7223 "realized", errp=0x7fffffffd240) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1390
+#9  0x0000555555992e5f in fsl_imx6_realize
+    (dev=0x7fff6eef5010, errp=0x7fffffffd2a8)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/fsl-imx6.c:144
+#10 0x0000555555ae2d95 in device_set_realized
+    (obj=0x7fff6eef5010, value=true, errp=0x7fffffffd470)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/qdev.c:891
+#11 0x0000555555dce510 in property_set_bool (obj=0x7fff6eef5010, v=
+    0x555556b91160, name=0x555555f9e68c "realized", opaque=0x555556805770, errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:2238
+#12 0x0000555555dcc349 in object_property_set (obj=0x7fff6eef5010, v=
+    0x555556b91160, name=0x555555f9e68c "realized", errp=0x7fffffffd470)
+    at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1324
+#13 0x0000555555dcfce7 in object_property_set_qobject
+    (obj=0x7fff6eef5010, value=0x555556b91000, name=0x555555f9e68c "realized", errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/qom-qobject.c:26
+#14 0x0000555555dcc62e in object_property_set_bool
+    (obj=0x7fff6eef5010, value=true, name=0x555555f9e68c "realized", errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1390
+#15 0x00005555559681b0 in sabrelite_init (machine=0x555556a5fa20)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/sabrelite.c:55
+--Type <RET> for more, q to quit, c to continue without paging--
+#16 0x0000555555aeff35 in machine_run_board_init (machine=0x555556a5fa20)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/machine.c:1140
+#17 0x00005555559c5b91 in qemu_init
+    (argc=21, argv=0x7fffffffd858, envp=0x7fffffffd908)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:4346
+#18 0x0000555555eb9f13 in main
+    (argc=21, argv=0x7fffffffd858, envp=0x7fffffffd908)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48
+

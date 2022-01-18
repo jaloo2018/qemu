@@ -1,0 +1,1 @@
+# URL: https://martin.uy/blog/bios-execution-in-qemu-where-it-all-starts/

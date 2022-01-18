@@ -1,0 +1,17 @@
+/buildroot/src/buildroot/
+/busybox/src/busybox/
+/busybox/src/uclibc-ng/
+/doc/IO-Multiplexing/
+/doc/qemu_blog/
+/glib/doc/glib-gtk-book/
+/glib/doc/main.pdf
+/glib/src/
+/sabrelite/src/buildroot
+/sabrelite/src/linux-imx6/
+/virt/buildroot
+/vmm/cloud-hypervisor/cloud-hypervisor/
+/vmm/jailhouse/src/jailhouse/
+/vmm/kvm/src/Xavier-KVM/
+/vmm/kvm/src/kvm-unit-tests/
+/vmm/kvm/src/kvmtool/
+/vmm/virt-manager/virt-manager/

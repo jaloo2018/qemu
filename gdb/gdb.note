@@ -1,0 +1,7 @@
+# URL: https://qemu-project.gitlab.io/qemu/system/gdb.html
+# sudo apt install gdb-multiarch
+
+-s     Shorthand  for -gdb tcp::1234, i.e. open a gdbserver on TCP port 
+		1234 (see gdb_005fusage).
+-S     Do not start CPU at startup (you must type 'c' in the monitor).
+

@@ -4,11 +4,16 @@
 # cd qemu
 # git submodule init
 # git submodule update --recursive
+# ./configure
+# make
+
 
 git pull --recurse-submodules -v
 
 # git branch -a
-# git checkout -b 5.0 remotes/origin/stable-5.0
+# git checkout -b stable-5.0 remotes/origin/stable-5.0
+# git branch -d statble-5.0
+
 # git tag
 # git checkout initial -b initial
 

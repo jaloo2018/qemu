@@ -1,0 +1,21 @@
+b fdmon_epoll_setup
+fd: 7
+
+Thread 1 "qemu-system-arm" hit Breakpoint 1, fdmon_epoll_setup (
+    ctx=0x555556a5f080) at /home/jaloo/v/qemu/qemu/qemu/util/fdmon-epoll.c:151
+151	    ctx->epollfd = epoll_create1(EPOLL_CLOEXEC);
+(gdb) bt
+#0  0x0000555555f1f243 in fdmon_epoll_setup (ctx=0x555556a5f080)
+    at /home/jaloo/v/qemu/qemu/qemu/util/fdmon-epoll.c:151
+#1  0x0000555555f1e8e8 in aio_context_setup (ctx=0x555556a5f080)
+    at /home/jaloo/v/qemu/qemu/qemu/util/aio-posix.c:675
+#2  0x0000555555f1947c in aio_context_new (errp=0x7fffffffd5d8)
+    at /home/jaloo/v/qemu/qemu/qemu/util/async.c:496
+#3  0x0000555555f1c251 in qemu_init_main_loop (errp=0x7fffffffd668)
+    at /home/jaloo/v/qemu/qemu/qemu/util/main-loop.c:161
+#4  0x00005555559c4a2e in qemu_init
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:3855
+#5  0x0000555555eb9f3c in main
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48

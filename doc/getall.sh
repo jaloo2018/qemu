@@ -17,3 +17,9 @@ wget events17.linuxfoundation.org/sites/events/files/slides/Improving\ the\ QEMU
 firefox https://qemu.readthedocs.io/_/downloads/en/stable/pdf/
 # QEMU readthedoc latest
 firefox https://readthedocs.org/projects/qemu/downloads/pdf/latest/
+
+# QEMU Internals
+git clone https://github.com/airbus-seclab/qemu_blog.git
+
+# IO-Multiplexing
+git clone https://github.com/Liu-YT/IO-Multiplexing.git

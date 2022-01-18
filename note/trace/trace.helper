@@ -1,0 +1,9 @@
+# URL: https://genodians.org/ssumpf/2019-11-01-qemu_tracing
+
+hw/intc/arm_gic.c
+hw/intc/trace-events
+docs/devel/tracing.txt
+
+qemu-system-arm -trace help &> build/trace.help
+
+
