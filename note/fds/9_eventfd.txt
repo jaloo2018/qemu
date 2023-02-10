@@ -1,0 +1,30 @@
+b eventfd
+fd: 9
+gdb> finish
+
+Thread 1 "qemu-system-arm" hit Breakpoint 1, eventfd (count=count@entry=0, 
+    flags=flags@entry=526336) at ../sysdeps/unix/sysv/linux/eventfd.c:28
+28	../sysdeps/unix/sysv/linux/eventfd.c: No such file or directory.
+(gdb) finish
+Run till exit from #0  eventfd (count=count@entry=0, flags=flags@entry=526336)
+    at ../sysdeps/unix/sysv/linux/eventfd.c:28
+g_wakeup_new () at /build/glib2.0-XBSKIw/glib2.0-2.48.2/./glib/gwakeup.c:151
+151	/build/glib2.0-XBSKIw/glib2.0-2.48.2/./glib/gwakeup.c: No such file or directory.
+Value returned is $5 = 9
+(gdb) bt
+#0  0x00007ffff7578847 in g_wakeup_new ()
+    at /build/glib2.0-XBSKIw/glib2.0-2.48.2/./glib/gwakeup.c:151
+#1  0x00007ffff7532b83 in g_main_context_new ()
+    at /build/glib2.0-XBSKIw/glib2.0-2.48.2/./glib/gmain.c:653
+#2  0x00007ffff7532c5d in g_main_context_default ()
+    at /build/glib2.0-XBSKIw/glib2.0-2.48.2/./glib/gmain.c:689
+#3  0x00007ffff7532e35 in g_source_attach (source=0x555556a60080, context=0x0)
+    at /build/glib2.0-XBSKIw/glib2.0-2.48.2/./glib/gmain.c:1169
+#4  0x0000555555f1c2eb in qemu_init_main_loop (errp=0x7fffffffd668)
+    at /home/jaloo/v/qemu/qemu/qemu/util/main-loop.c:171
+#5  0x00005555559c4a2e in qemu_init
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:3855
+#6  0x0000555555eb9f3c in main
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48

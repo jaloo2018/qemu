@@ -1,0 +1,108 @@
+b event_notifier_set
+fd: 8
+
+jaloo qemu_main_loop: 9
+[Switching to Thread 0x7fff6eef4700 (LWP 21462)]
+Thread 3 "qemu-system-arm" hit Breakpoint 1, event_notifier_set (
+    e=0x555556a6014c)
+    at /home/jaloo/v/qemu/qemu/qemu/util/event_notifier-posix.c:101
+101	        ret = write(e->wfd, &value, sizeof(value));
+(gdb) bt
+#0  0x0000555555f1f728 in event_notifier_set (e=0x555556a6014c)
+    at /home/jaloo/v/qemu/qemu/qemu/util/event_notifier-posix.c:101
+#1  0x0000555555f1924c in aio_notify (ctx=0x555556a60080)
+    at /home/jaloo/v/qemu/qemu/qemu/util/async.c:427
+#2  0x0000555555f188fb in aio_bh_enqueue (bh=0x555556a60470, new_flags=2)
+    at /home/jaloo/v/qemu/qemu/qemu/util/async.c:84
+#3  0x0000555555f18c69 in qemu_bh_schedule (bh=0x555556a60470)
+    at /home/jaloo/v/qemu/qemu/qemu/util/async.c:181
+#4  0x0000555555f1c1f1 in qemu_notify_event ()
+    at /home/jaloo/v/qemu/qemu/qemu/util/main-loop.c:142
+#5  0x000055555587175a in qemu_timer_notify_cb
+    (opaque=0x0, type=QEMU_CLOCK_VIRTUAL)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:910
+#6  0x0000555555f1b398 in timerlist_notify (timer_list=0x555556a5fe70)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-timer.c:298
+#7  0x0000555555f1b6e1 in timerlist_rearm (timer_list=0x555556a5fe70)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-timer.c:424
+#8  0x0000555555f1b7fc in timer_mod_ns
+    (ts=0x555556fa52a0, expire_time=7529881144)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-timer.c:452
+#9  0x0000555555f1b8fe in timer_mod (ts=0x555556fa52a0, expire_time=7529881144)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-timer.c:482
+#10 0x0000555555afa5b9 in ptimer_reload (s=0x555556fa74c0, delta_adjust=0)
+--Type <RET> for more, q to quit, c to continue without paging--
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/ptimer.c:147
+#11 0x0000555555afaca2 in ptimer_transaction_commit (s=0x555556fa74c0)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/ptimer.c:395
+#12 0x0000555555cbcf86 in timerblock_write
+    (opaque=0x7fff6ef25c70, addr=8, value=7, size=4)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/timer/arm_mptimer.c:169
+#13 0x0000555555cbd087 in arm_thistimer_write
+    (opaque=0x7fff6ef25950, addr=8, value=7, size=4)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/timer/arm_mptimer.c:194
+#14 0x0000555555880c63 in memory_region_write_accessor
+    (mr=0x7fff6ef260b0, addr=8, value=0x7fff6eef2f48, size=4, shift=0, mask=4294967295, attrs=...) at /home/jaloo/v/qemu/qemu/qemu/memory.c:483
+#15 0x0000555555880e69 in access_with_adjusted_size
+    (addr=8, value=0x7fff6eef2f48, size=4, access_size_min=1, access_size_max=4, access_fn=
+    0x555555880b84 <memory_region_write_accessor>, mr=0x7fff6ef260b0, attrs=...) at /home/jaloo/v/qemu/qemu/qemu/memory.c:544
+#16 0x0000555555883d4e in memory_region_dispatch_write
+    (mr=0x7fff6ef260b0, addr=8, data=7, op=MO_32, attrs=...)
+    at /home/jaloo/v/qemu/qemu/qemu/memory.c:1465
+#17 0x00005555558214ff in flatview_write_continue
+    (fv=0x555556b92560, addr=10487304, attrs=..., ptr=0x7fff6eef3090, len=4, addr1=8, l=4, mr=0x7fff6ef260b0) at /home/jaloo/v/qemu/qemu/qemu/exec.c:3137
+--Type <RET> for more, q to quit, c to continue without paging--
+#18 0x0000555555821644 in flatview_write
+    (fv=0x555556b92560, addr=10487304, attrs=..., buf=0x7fff6eef3090, len=4)
+    at /home/jaloo/v/qemu/qemu/qemu/exec.c:3177
+#19 0x0000555555820b4b in subpage_write
+    (opaque=0x5555576ee860, addr=520, value=7, len=4, attrs=...)
+    at /home/jaloo/v/qemu/qemu/qemu/exec.c:2789
+#20 0x0000555555880d4d in memory_region_write_with_attrs_accessor
+    (mr=0x5555576ee860, addr=520, value=0x7fff6eef3188, size=4, shift=0, mask=4294967295, attrs=...) at /home/jaloo/v/qemu/qemu/qemu/memory.c:503
+#21 0x0000555555880e69 in access_with_adjusted_size
+    (addr=520, value=0x7fff6eef3188, size=4, access_size_min=1, access_size_max=8, access_fn=
+    0x555555880c6a <memory_region_write_with_attrs_accessor>, mr=0x5555576ee860, attrs=...) at /home/jaloo/v/qemu/qemu/qemu/memory.c:544
+#22 0x0000555555883d8c in memory_region_dispatch_write
+    (mr=0x5555576ee860, addr=520, data=7, op=MO_32, attrs=...)
+    at /home/jaloo/v/qemu/qemu/qemu/memory.c:1472
+#23 0x0000555555898742 in io_writex
+    (env=0x7fff6eefe890, iotlbentry=0x7fff6806b010, mmu_idx=10, val=7, addr=4104128008, retaddr=140736134802983, op=MO_32)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:1084
+#24 0x000055555589aa49 in store_helper
+    (env=0x7fff6eefe890, addr=4104128008, val=7, oi=42, retaddr=140736134802983,--Type <RET> for more, q to quit, c to continue without paging--
+ op=MO_32) at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:1954
+#25 0x000055555589b07f in helper_le_stl_mmu
+    (env=0x7fff6eefe890, addr=4104128008, val=7, oi=42, retaddr=140736134802983) at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:2074
+#26 0x00007fffaf526e27 in code_gen_buffer ()
+#27 0x00005555558b05b7 in cpu_tb_exec
+    (cpu=0x7fff6eef5090, itb=0x7fffaf526c80 <code_gen_buffer+4299859>)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cpu-exec.c:172
+#28 0x00005555558b1448 in cpu_loop_exec_tb
+    (cpu=0x7fff6eef5090, tb=0x7fffaf526c80 <code_gen_buffer+4299859>, last_tb=0x7fff6eef38c8, tb_exit=0x7fff6eef38c0)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cpu-exec.c:619
+#29 0x00005555558b1762 in cpu_exec (cpu=0x7fff6eef5090)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cpu-exec.c:732
+#30 0x00005555558727ba in tcg_cpu_exec (cpu=0x7fff6eef5090)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:1405
+#31 0x000055555587304a in qemu_tcg_cpu_thread_fn (arg=0x7fff6eef5090)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:1713
+#32 0x0000555555f229f4 in qemu_thread_start (args=0x555556c780b0)
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-thread-posix.c:519
+#33 0x00007ffff4aea6ba in start_thread (arg=0x7fff6eef4700)
+    at pthread_create.c:333
+#34 0x00007ffff482051d in clone ()
+--Type <RET> for more, q to quit, c to continue without paging--
+    at ../sysdeps/unix/sysv/linux/x86_64/clone.S:109
+(gdb) info thread
+  Id   Target Id                                           Frame 
+  1    Thread 0x7ffff7f7fc00 (LWP 21455) "qemu-system-arm" 0x00007ffff4814911 in __GI_ppoll (fds=0x555557770950, nfds=5, timeout=<optimized out>, sigmask=0x0)
+    at ../sysdeps/unix/sysv/linux/ppoll.c:50
+  2    Thread 0x7fffef90d700 (LWP 21461) "qemu-system-arm" syscall ()
+    at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+* 3    Thread 0x7fff6eef4700 (LWP 21462) "qemu-system-arm" event_notifier_set (
+    e=0x555556a6014c)
+    at /home/jaloo/v/qemu/qemu/qemu/util/event_notifier-posix.c:101
+  4    Thread 0x7fff6e6f3700 (LWP 21463) "qemu-system-arm" pthread_cond_wait@@GLIBC_2.3.2 () at ../sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185
+  5    Thread 0x7fff6def2700 (LWP 21464) "qemu-system-arm" pthread_cond_wait@@GLIBC_2.3.2 () at ../sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185
+  6    Thread 0x7fff6d6f1700 (LWP 21465) "qemu-system-arm" pthread_cond_wait@@GLIBC_2.3.2 () at ../sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185

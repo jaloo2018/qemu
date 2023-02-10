@@ -1,0 +1,2 @@
+b arm_load_kernel
+

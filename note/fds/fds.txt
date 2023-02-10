@@ -1,0 +1,12 @@
+jaloo@ECO-EV:/proc/10018/fd$ ls -lh
+total 0
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 0 -> /dev/pts/19
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 1 -> /dev/pts/19
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 2 -> /dev/pts/19
+lr-x------ 1 jaloo jaloo 64 1月  18 14:32 3 -> /dev/urandom
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 4 -> anon_inode:[eventpoll]
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 5 -> anon_inode:[eventfd]
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 6 -> anon_inode:[signalfd]
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 7 -> anon_inode:[eventpoll]
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 8 -> anon_inode:[eventfd]
+lrwx------ 1 jaloo jaloo 64 1月  18 14:32 9 -> anon_inode:[eventfd]

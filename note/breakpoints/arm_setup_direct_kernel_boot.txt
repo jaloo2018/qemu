@@ -1,0 +1,22 @@
+b arm_setup_direct_kernel_boot
+
+Thread 1 "qemu-system-arm" hit Breakpoint 1, arm_setup_direct_kernel_boot (
+    cpu=0x7fff6eef5090, info=0x555556638a80 <sabrelite_binfo>)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/boot.c:986
+986	{
+(gdb) bt
+#0  0x00005555559411a2 in arm_setup_direct_kernel_boot
+    (cpu=0x7fff6eef5090, info=0x555556638a80 <sabrelite_binfo>)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/boot.c:986
+#1  0x0000555555941d33 in arm_load_kernel
+    (cpu=0x7fff6eef5090, ms=0x555556a61e00, info=0x555556638a80 <sabrelite_binfo>) at /home/jaloo/v/qemu/qemu/qemu/hw/arm/boot.c:1299
+#2  0x0000555555968491 in sabrelite_init (machine=0x555556a61e00)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/arm/sabrelite.c:104
+#3  0x0000555555af017d in machine_run_board_init (machine=0x555556a61e00)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/core/machine.c:1140
+#4  0x00005555559c5cb6 in qemu_init
+    (argc=21, argv=0x7fffffffd8c8, envp=0x7fffffffd978)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:4348
+#5  0x0000555555ebae91 in main
+    (argc=21, argv=0x7fffffffd8c8, envp=0x7fffffffd978)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48

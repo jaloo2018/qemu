@@ -1,5 +1,5 @@
 #!/bin/bash
-# URL: https://www.qemu.org/download/#source
+# URL: https://www.qemu.org/download/
 # git clone https://gitlab.com/qemu-project/qemu.git
 # cd qemu
 # git submodule init
@@ -7,8 +7,10 @@
 # ./configure
 # make
 
-
-git pull --recurse-submodules -v
+# git pull --recurse-submodules -v
+git pull
+# git submodule update --recursive --remote
+git submodule update --recursive
 
 # git branch -a
 # git checkout -b stable-5.0 remotes/origin/stable-5.0

@@ -1,0 +1,72 @@
+b imx_serial_read
+
+[Switching to Thread 0x7fff6d6f1700 (LWP 7887)]
+
+Thread 6 "qemu-system-arm" hit Breakpoint 1, imx_serial_read (
+    opaque=0x7fff6ef27710, offset=128, size=4)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/char/imx_serial.c:126
+126	    IMXSerialState *s = (IMXSerialState *)opaque;
+(gdb) bt
+#0  0x0000555555adff36 in imx_serial_read
+    (opaque=0x7fff6ef27710, offset=128, size=4)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/char/imx_serial.c:126
+#1  0x00005555558809bc in memory_region_read_accessor
+    (mr=0x7fff6ef27a20, addr=128, value=0x7fff6d6f01c8, size=4, shift=0, mask=4294967295, attrs=...) at /home/jaloo/v/qemu/qemu/qemu/memory.c:434
+#2  0x0000555555880e69 in access_with_adjusted_size
+    (addr=128, value=0x7fff6d6f01c8, size=4, access_size_min=1, access_size_max=4, access_fn=
+    0x55555588097e <memory_region_read_accessor>, mr=0x7fff6ef27a20, attrs=...)
+    at /home/jaloo/v/qemu/qemu/qemu/memory.c:544
+#3  0x00005555558839bd in memory_region_dispatch_read1
+    (mr=0x7fff6ef27a20, addr=128, pval=0x7fff6d6f01c8, size=4, attrs=...)
+    at /home/jaloo/v/qemu/qemu/qemu/memory.c:1385
+#4  0x0000555555883a92 in memory_region_dispatch_read
+    (mr=0x7fff6ef27a20, addr=128, pval=0x7fff6d6f01c8, op=MO_32, attrs=...)
+    at /home/jaloo/v/qemu/qemu/qemu/memory.c:1413
+#5  0x000055555589858a in io_readx
+    (env=0x7fff6ef1ed50, iotlbentry=0x7fff58028f00, mmu_idx=10, addr=3230220416, retaddr=140736231616561, access_type=MMU_DATA_LOAD, op=MO_32)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:1045
+#6  0x0000555555899ada in load_helper
+    (env=0x7fff6ef1ed50, addr=3230220416, oi=42, retaddr=140736231616561, op=MO_
+32, code_read=false, full_load=0x555555899e77 <full_le_ldul_mmu>)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:1566
+#7  0x0000555555899ebb in full_le_ldul_mmu
+    (env=0x7fff6ef1ed50, addr=3230220416, oi=42, retaddr=140736231616561)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:1662
+#8  0x0000555555899eed in helper_le_ldul_mmu
+    (env=0x7fff6ef1ed50, addr=3230220416, oi=42, retaddr=140736231616561)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cputlb.c:1669
+#9  0x00007fffb517b335 in code_gen_buffer ()
+#10 0x00005555558b05b7 in cpu_tb_exec
+    (cpu=0x7fff6ef15550, itb=0x7fffb517af00 <code_gen_buffer+101113555>)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cpu-exec.c:172
+#11 0x00005555558b1448 in cpu_loop_exec_tb
+    (cpu=0x7fff6ef15550, tb=0x7fffb517af00 <code_gen_buffer+101113555>, last_tb=0x7fff6d6f08c8, tb_exit=0x7fff6d6f08c0)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cpu-exec.c:619
+#12 0x00005555558b1762 in cpu_exec (cpu=0x7fff6ef15550)
+    at /home/jaloo/v/qemu/qemu/qemu/accel/tcg/cpu-exec.c:732
+#13 0x00005555558727ba in tcg_cpu_exec (cpu=0x7fff6ef15550)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:1405
+#14 0x000055555587304a in qemu_tcg_cpu_thread_fn (arg=0x7fff6ef15550)
+    at /home/jaloo/v/qemu/qemu/qemu/cpus.c:1713
+#15 0x0000555555f23949 in qemu_thread_start (args=0x555556f67a70)
+--Type <RET> for more, q to quit, c to continue without paging--
+    at /home/jaloo/v/qemu/qemu/qemu/util/qemu-thread-posix.c:519
+#16 0x00007ffff4aea6ba in start_thread (arg=0x7fff6d6f1700)
+    at pthread_create.c:333
+#17 0x00007ffff482051d in clone ()
+    at ../sysdeps/unix/sysv/linux/x86_64/clone.S:109
+(gdb) 
+(gdb) info threads
+  Id   Target Id                                          Frame 
+  1    Thread 0x7ffff7f7fc00 (LWP 7877) "qemu-system-arm" 0x00007ffff4814911 in __GI_ppoll (fds=0x555557771d50, nfds=5, timeout=<optimized out>, sigmask=0x0)
+    at ../sysdeps/unix/sysv/linux/ppoll.c:50
+  2    Thread 0x7fffef90d700 (LWP 7882) "qemu-system-arm" syscall ()
+    at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+  3    Thread 0x7fff6eef4700 (LWP 7883) "qemu-system-arm" pthread_cond_wait@@GLIBC_2.3.2 () at ../sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185
+  4    Thread 0x7fff6e6f3700 (LWP 7884) "qemu-system-arm" pthread_cond_wait@@GLIBC_2.3.2 () at ../sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185
+  5    Thread 0x7fff6def2700 (LWP 7885) "qemu-system-arm" pthread_cond_wait@@GLIBC_2.3.2 () at ../sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185
+* 6    Thread 0x7fff6d6f1700 (LWP 7887) "qemu-system-arm" imx_serial_read (
+    opaque=0x7fff6ef27710, offset=128, size=4)
+    at /home/jaloo/v/qemu/qemu/qemu/hw/char/imx_serial.c:126
+(gdb) thread
+[Current thread is 6 (Thread 0x7fff6d6f1700 (LWP 7887))]

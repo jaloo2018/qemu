@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+
+<script type="text/javascript" async="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/analytics.js"></script><script async="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/js.js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-118253-2');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Method for Booting ARM Based Multi-Core SoCs</title>
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="https://static.designandreuse.com/IMAGES/favicon.ico">
+<link rel="alternate" type="application/rss+xml" title="All D and R Feeds" href="https://www.design-reuse.com/xml/1/1/all/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="D and R Headline News" href="https://www.design-reuse.com/xml/1/1/news/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="D and R Industry Articles" href="https://www.design-reuse.com/xml/1/1/articles/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="D and R New Products" href="https://www.design-reuse.com/xml/1/1/products/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="D and R Wanted IPs" href="https://www.design-reuse.com/xml/1/1/wanted/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="D and R Industry Expert Blogs" href="https://www.design-reuse.com/xml/1/1/blogs/rss.xml">
+<meta name="description" content="In the boot process various modules/peripherals (like clock controller or security handing module and other master/slaves) initialized as per the SoC architecture and customer applications. In Multi core SoCs, first primary core (also called booting core) start up in boot process and then secondary cores are enabled by software.">
+<meta name="keywords" content="method, for, booting, arm, based, multi-core, socs">
+	<meta property="og:type" content="article">
+			<meta property="og:image" content="https://www.design-reuse.com/img11/drlogo16.gif">
+			<meta property="og:title" content="Method for Booting ARM Based Multi-Core SoCs">
+			<meta property="og:url" content="https://www.design-reuse.com/articles/38128/method-for-booting-arm-based-multi-core-socs.html">
+			<meta property="og:description" content="In the boot process various modules/peripherals (like clock controller or security handing module and other master/slaves) initialized as per the SoC architecture and customer applications. In Multi core SoCs, first primary core (also called booting core) start up in boot process and then secondary cores are enabled by software.">
+		
+	<meta property="og:site_name" content="Design And Reuse">
+<!--sphider_noindex--> 
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="Expires" content="Fri, 01 Jan 1990 00:00:00 GMT">
+<meta name="Created" content="2015-08-31 16:08:00"><!--[if lte IE 8]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+
+<script src="https://www.design-reuse.com//jscript/respond.min.js"></script>
+<![endif]-->
+	<link rel="stylesheet" type="text/css" href="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/staticnews-20220105.css">
+
+</head>
+<body>
+
+<form>
+<input id="menu-toggle" class="menu-toggle" type="checkbox">
+<nav>
+	<div class="menu">
+	<ul>
+		<li><a href="https://www.design-reuse.com/">Home</a></li>
+		<li><a href="https://www.design-reuse.com/sip/">Search Silicon IP</a></li>
+		<li><a href="https://www.design-reuse.com/vip/">Search Verification IP</a></li>
+		<li><a href="https://www.design-reuse.com/news/">Latest News</a></li>
+		<li><a href="https://www.design-reuse.com/articles/">Industry Articles</a></li>
+		<li><a href="https://www.design-reuse.com/industryexpertblogs/">Industry Expert Blogs</a></li>
+		<li><a href="https://www.design-reuse.com/video/">Videos</a></li>
+		<li><a href="https://www.design-reuse.com/slides/">Slides</a></li>
+ 
+	</ul>
+  </div> 
+</nav>
+<section id="contentfull">
+<div class="top-bar">
+  <label for="menu-toggle" id="toggle">≡ <span>Menu</span></label> 
+  
+  <a id="drlogoS" href="https://www.design-reuse.com/">Design And Reuse</a>
+
+<ul id="top-bar-subscribe" style="margin-right:15px; margin-top:5px">
+
+			<li class="d-inline">
+		<a class="login c7 sz11" href="https://www.design-reuse.com/login2.php?nexturl=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html">Login</a>
+		</li>
+		<li class="c5 sz11 d-inline">|</li>
+		
+
+	<li id="nav-login167156" class="d-inline">
+	<a class="login c7 sz11" href="https://www.design-reuse.com/users/signup.php">Subscribe</a>
+	</li>
+
+
+</ul>
+  </div> 
+
+<div id="bandeau-nav167156">
+<div class="list grid-980">
+
+<ul id="nav-right167156" class="nav-right">
+
+
+<li class="d-inline">
+<a class="c7 sz11" href="https://www.design-reuse.com/about/">Company</a>
+</li>
+<li class="c5 sz11 d-inline">|</li>
+
+<li class="d-inline">
+<a class="c7 sz11" href="https://www.design-reuse.com/foundry/siliconip/cn.php">D&amp;R China</a>
+</li>
+<li class="c5 sz11 d-inline">|</li>
+<li class="d-inline">
+<a class="c7 sz11" href="https://www.design-reuse.com/foundry/siliconip/drembedded3.php" rel="nofollow">dr-embedded.com</a>
+</li>
+<li class="c5 sz11 d-inline">|</li>
+
+<li class="d-inline">
+<a class="c7 sz11" href="https://www.design-reuse.com/wiki/">Wiki</a>
+</li>
+<li class="c5 sz11 d-inline">|</li>
+ 
+<li class="d-inline dropdown">
+<span class="c7 sz11"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/cn.png" style="margin-top:4px; margin-right:10px" width="21" height="16"></span>
+  <div class="dropdown-content">
+    <a href="https://www.design-reuse.com/" class="c5 sz11 d-inline"> <img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/en.png" style="margin-top:4px;" width="16" height="12"> English</a>
+    <a href="https://www.design-reuse.com/foundry/siliconip/cn.php" class="c5 sz11 d-inline"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/cn.png" style="margin-top:4px" width="16" height="12"> Chinese</a>
+  </div>
+</li>
+
+ 
+<style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+	cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 2px;
+	z-index: 99999;
+	margin-top: -8px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 1px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+</style>
+			<li class="d-inline">
+		<a class="login c7 sz11" href="https://www.design-reuse.com/login2.php?nexturl=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html">Login</a>
+		</li>
+		<li class="c5 sz11 d-inline">|</li>
+		
+
+	<li id="nav-login167156" class="d-inline">
+	<a class="login c7 sz11" href="https://www.design-reuse.com/users/signup.php">Subscribe to D&amp;R SoC News Alert</a>
+	</li>
+
+
+</ul>
+</div>
+</div>
+<div id="leadeboard"><div id="leadeboard-in">
+	<a href="https://www.design-reuse.com/" id="drlogo">Design And Reuse</a>
+	
+</div></div> 
+<div id="center">
+    <div class="outter"></div>
+    <div id="mainmenu" class="navigation navigation2012">
+        <ul id="menu-bar">
+            <li id="nav_onglet_1" class=" actu">
+                <a href="https://www.design-reuse.com/sip/" class="imaged"><span class="text">Search IP</span><span class="drop"></span></a>
+				<ul class="ombrage">
+				
+                    <li class="first">
+					     <span>Categories</span>
+                        <div class="ul">
+                            <ul>
+                                <li class="first"><a href="https://www.design-reuse.com/sip/"><strong>Silicon IP</strong></a></li>
+                                <li><a href="https://www.design-reuse.com/sip/analog-mixed-signal-c-3/">Analog &amp; Mixed Signal</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/storage-controller-phy-c-5/">Storage Controller &amp; PHY</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/graphic-peripheral-c-6/">Graphic &amp; Peripheral</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/interfaces-c-7/">Interface Controller &amp; PHY</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/processors-microcontrollers-c-9/">Processors &amp; Microcontrollers</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/memory-logic-library-c-10/">Memory &amp; Logic Library</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/security-c-11/">Security</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/multimedia-c-12/">Multimedia</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/wireline-communication-c-13/">Wireline Communication</a></li>
+                                <li><a href="https://www.design-reuse.com/sip/wireless-communication-c-14/">Wireless Communication</a></li>
+                                <li class="first">
+                                    <a href="https://www.design-reuse.com/sip/provider.php"><strong>Silicon IP Vendors</strong></a>
+                                </li>
+
+
+
+								
+                            </ul>
+                        </div>
+                    </li>
+
+					
+                   <li>
+						<span>&nbsp;</span>
+
+                        <div class="ul">
+							<ul>
+                                <li class="first">
+                                    <a href="https://www.design-reuse.com/vip/"><strong>Verification IP</strong></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/vip/">Search / Browse</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/vip/provider.php">Verification IP Vendors</a>
+                                </li>
+
+	
+					
+									<li class="first">
+                                    <a href="https://www.design-reuse.com/hds/"><strong>Software IP</strong></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/hds/">Search / Browse</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/hds/provider.php">Software IP Vendors</a>
+                                </li>
+   	  		
+                         
+                                <li>
+                                    <strong>&nbsp;</strong>
+                                </li>
+                                <li style="border-top:0px">
+                                    <strong>&nbsp;</strong>
+                                </li>
+                                <li>
+                                    <strong>Additional Services</strong>
+                                </li>
+
+                                <li>
+                                    <a href="https://www.design-reuse.com/sip/wanted/">Wanted IPs</a>
+                                </li>
+								
+																					
+					                                <li>
+                                    <a href="https://www.design-reuse.com/ipanalytics/">IP Analytics</a>
+                                </li>
+								
+					  	
+
+                            </ul>
+                        </div>
+                    </li>
+					
+					<li>
+						<a href="https://www.design-reuse.com/sip/">	
+						Featured Products</a> 
+						<div class="ul articles">	
+						<ul>
+						<li><div class="media"><a href="https://www.design-reuse.com/sip/modern-audio-dsp-designed-for-battery-operated-high-performance-audio-and-voice-applications-ip-47462/"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/ceva.gif" alt="CEVA, Inc." class="logo" loading="lazy" width="64" height="27"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/sip/modern-audio-dsp-designed-for-battery-operated-high-performance-audio-and-voice-applications-ip-47462/">Modern Audio DSP, designed for battery operated, high-performance, audio and voice applications</a></p></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/sip/rapidio-to-axi-bridge-rab-ip-29651/"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/mobiveil.gif" alt="Mobiveil Inc." class="logo" loading="lazy" width="64" height="27"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/sip/rapidio-to-axi-bridge-rab-ip-29651/">RapidIO to AXI Bridge (RAB)</a></p></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/sip/single-port-low-voltage-globalfoundries-28slp-hvt-svt-sram-memory-compiler-ip-36974/"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/mobilesemi.jpg" alt="Mobile Semiconductor Corporation" class="logo" loading="lazy" width="64" height="27"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/sip/single-port-low-voltage-globalfoundries-28slp-hvt-svt-sram-memory-compiler-ip-36974/">Single Port, Low Voltage, GLOBALFOUNDRIES 28SLP, HVt &amp; Svt, SRAM Memory Compiler</a></p></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/sip/rivierawaves-bluetooth-5-3-dual-mode-baseband-controller-ip-49971/"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/ceva.gif" alt="CEVA, Inc." class="logo" loading="lazy" width="64" height="27"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/sip/rivierawaves-bluetooth-5-3-dual-mode-baseband-controller-ip-49971/">RivieraWaves Bluetooth 5.3 dual mode Baseband Controller</a></p></div></li>	     
+						</ul></div>
+						
+                    </li>
+
+                </ul>
+				
+            </li>
+  		
+
+	
+					
+	
+            <li id="nav_onglet_3" class=" actu">
+                <a href="https://www.design-reuse.com/news/" class="imaged"><span class="text">News</span><span class="drop"></span></a>
+              <ul>
+                    <li class="first">
+                        <span>Categories</span>
+                        <div class="ul">
+                            <ul>
+                                <li class="first">
+                                    <a href="https://www.design-reuse.com/news/semiconductor-ip-soc-0.html">IP/SoC Products </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/news/embedded-systems-0.html">Embedded Systems </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/news/foundries-0.html">Foundries</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/news/fpga-0.html">FPGA </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/news/fabless-0.html">Fabless / IDM </a>
+                                </li>
+                               <li>
+                                    <a href="https://www.design-reuse.com/news/deals-0.html">Deals</a>
+                                </li>
+                               <li>
+                                    <a href="https://www.design-reuse.com/news/legal-0.html">Legal</a>
+                                </li>
+                               <li>
+                                    <a href="https://www.design-reuse.com/news/business-0.html">Business</a>
+                                </li>
+                               <li>
+                                    <a href="https://www.design-reuse.com/news/financial-0.html">Financial Results</a>
+                                </li>
+                               <li>
+                                    <a href="https://www.design-reuse.com/news/people-0.html">People</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/news/commentary-analysis-0.html">Commentary / Analysis</a>
+                                </li> 
+								<li>
+                                    <a href="https://www.design-reuse.com/news/mostpopular"><strong>20 Most Popular News</strong></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+					<li>
+                        <a href="https://www.design-reuse.com/news/">					
+						Latest News</a> 
+						<div class="ul articles">	
+						<ul>
+						<li><div class="media"><a href="https://www.design-reuse.com/news/52113/caes-space-grade-qualification-quad-core-leon4ft-microprocessor.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/caes.jpg" alt="caes-space-grade-qualification-quad-core-leon4ft-microprocessor" loading="lazy" width="73" height="50"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/news/52113/caes-space-grade-qualification-quad-core-leon4ft-microprocessor.html">CAES announces Space Grade Qualification of Quad Core LEON4FT Microprocessor </a></p><div class="meta">Friday Jun. 10, 2022</div></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/news/52102/toshiba-japan-semiconductor-floadia-nvm-memory.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/floadia.jpg" alt="toshiba-japan-semiconductor-floadia-nvm-memory" loading="lazy" width="73" height="50"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/news/52102/toshiba-japan-semiconductor-floadia-nvm-memory.html">Toshiba
+ and Japan Semiconductor Develop Highly Reliable Versatile Analog 
+Platform with Floadia's G1 technology for Automotive Applications </a></p><div class="meta">Thursday Jun. 09, 2022</div></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/news/52095/bsc-intel-partnership-risc-v-zettascale-supercomputers.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/bsc.jpg" alt="bsc-intel-partnership-risc-v-zettascale-supercomputers" loading="lazy" width="73" height="50"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/news/52095/bsc-intel-partnership-risc-v-zettascale-supercomputers.html">BSC and Intel announce a joint laboratory for the development of future zettascale supercomputers</a></p><div class="meta">Thursday Jun. 09, 2022</div></div></li>	     
+						</ul></div>
+
+						
+                    </li>
+                </ul>
+
+            </li>
+            <li id="nav_onglet_4" class=" actu">
+                <a href="https://www.design-reuse.com/articles/" class="imaged"><span class="text">Industry Articles</span><span class="drop"></span></a>
+              <ul>
+                    <li class="first">
+                        <span>Categories</span>
+                        <div class="ul">
+                            <ul>
+                                <li class="first">
+                                    <a href="https://www.design-reuse.com/articles/semiconductor-ip-soc-0.html">IP/SoC Products </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/articles/embedded-systems-0.html">Embedded Systems </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/articles/foundries-0.html">Foundries</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.design-reuse.com/articles/fpga-0.html">FPGA </a>
+                                </li>
+                               <li>
+                                    <a href="https://www.design-reuse.com/articles/business-0.html">Business</a>
+                                </li>
+								<li>
+                                    <a href="https://www.design-reuse.com/articles/mostpopular"><strong>20 Most Popular Articles</strong></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+					<li>
+                        <a href="https://www.design-reuse.com/articles/">					
+						Featured Articles</a> 
+						<div class="ul articles">	
+						<ul>
+						<li><div class="media"><a href="https://www.design-reuse.com/articles/52037/understanding-interface-analog-to-digital-converters-adcs-with-datastorm-daq-fpga.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/einfo2.jpg" alt="understanding-interface-analog-to-digital-converters-adcs-with-datastorm-daq-fpga" loading="lazy" width="73" height="50"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/articles/52037/understanding-interface-analog-to-digital-converters-adcs-with-datastorm-daq-fpga.html">Understanding Interface Analog-to-Digital Converters (ADCs) with DataStorm DAQ FPGA</a></p><div class="meta">Monday May. 30, 2022</div></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/articles/52036/how-to-achieve-better-iot-security-in-wi-fi-modules.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/crypto.jpg" alt="how-to-achieve-better-iot-security-in-wi-fi-modules" loading="lazy" width="73" height="50"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/articles/52036/how-to-achieve-better-iot-security-in-wi-fi-modules.html">How to achieve better IoT security in Wi-Fi modules</a></p><div class="meta">Monday May. 30, 2022</div></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/articles/52010/why-advanced-dsps-running-rtoss-are-an-ideal-match-for-the-iot.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/iot2.jpg" alt="why-advanced-dsps-running-rtoss-are-an-ideal-match-for-the-iot" loading="lazy" width="73" height="50"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/articles/52010/why-advanced-dsps-running-rtoss-are-an-ideal-match-for-the-iot.html">Why advanced DSPs running RTOSs are an ideal match for the IoT</a></p><div class="meta">Wednesday May. 25, 2022</div></div></li>	     
+						</ul></div>
+
+						
+                    </li>
+                </ul> 
+            </li>
+            <li id="nav_onglet_5" class="actu">
+                <a href="https://www.design-reuse.com/industryexpertblogs/" class="imaged"><span class="text">Blogs</span><span class="drop"></span></a>
+               <ul>
+ 					<li>
+                        <a href="https://www.design-reuse.com/industryexpertblogs/">					
+						Industry Expert Blogs</a> 
+						<div class="ul articles">	
+						<ul>
+						<li><div class="media"><a href="https://www.design-reuse.com/industryexpertblogs/52109/how-the-chip-shortage-deepens-the-engineering-skills-crisis.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/embedded.jpg" alt="how-the-chip-shortage-deepens-the-engineering-skills-crisis" loading="lazy" width="64" height="64"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/industryexpertblogs/52109/how-the-chip-shortage-deepens-the-engineering-skills-crisis.html">How the chip shortage deepens the engineering skills crisis</a></p><div class="meta">Embedded.com Blog - Richard McCullagh, CIS Electronics Engineering</div></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/industryexpertblogs/52100/arm-mali-c55-image-processing.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/arm.jpg" alt="arm-mali-c55-image-processing" loading="lazy" width="64" height="64"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/industryexpertblogs/52100/arm-mali-c55-image-processing.html">Arm Mali-C55: Image processing with the smallest silicon area and highest performance</a></p><div class="meta">arm Blogs - Parag Beeraka, Arm</div></div></li>	<li><div class="media"><a href="https://www.design-reuse.com/industryexpertblogs/52093/why-mips-is-betting-big-on-risc-v.html"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/riscv.jpg" alt="why-mips-is-betting-big-on-risc-v" loading="lazy" width="64" height="64"></a></div><div class="article product"><p><a href="https://www.design-reuse.com/industryexpertblogs/52093/why-mips-is-betting-big-on-risc-v.html">Why MIPS is Betting Big on RISC-V: Q&amp;A with RISC-V International and MIPS</a></p><div class="meta">RISC-V Blog - Calista Redmond, CEO, RISC-V International</div></div></li>	     
+						</ul></div>
+
+						
+                    </li>
+                </ul>     
+            </li>
+			 <li id="nav_onglet_6" class=" cols">
+                <a href="https://www.design-reuse.com/video/" class="imaged nodrop"><span class="text">Videos</span></a>
+
+            </li>
+			
+			            <li id="nav_onglet_8" class=" cols">
+                <a href="https://www.design-reuse.com/slides/" class="imaged nodrop"><span class="text">Slides</span></a>
+
+            </li>
+
+			           <li id="nav_onglet_7" class=" cols">
+
+					<a rel="nofollow" href="https://www.design-reuse-embedded.com/ipsocdays/2022/" class="imaged"><span class="text">Events</span><span class="drop"></span></a>
+					<ul>
+                    <li class="first">
+					
+					
+					  <a rel="nofollow" href="https://www.design-reuse-embedded.com/ipsocdays/2022/">IP-SOC  2022</a>
+
+
+						<span>Archives</span>
+                        <div class="ul">
+                            <ul>
+
+								<li class="first">
+                                    <a rel="nofollow" href="https://www.design-reuse-embedded.com/ipsocdays/ipsocdays2021/">IP-SoC Days 2021</a>
+                                </li>
+		
+								<li>
+                                    <a rel="nofollow" href="https://www.design-reuse-embedded.com/ipsocdays/ipsocdays2020/">IP-SoC Days 2020</a>
+                                </li>
+								<li>
+                                    <a rel="nofollow" href="https://www.design-reuse-embedded.com/ipsocdays/ipsocdays2019/">IP-SoC Days 2019</a>
+                                </li>
+                                <li>
+                                    <a rel="nofollow" href="https://www.design-reuse-embedded.com/ipsocdays/ipsocdays2018/">IP-SoC Days 2018</a>
+                                </li>
+
+                          
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+				
+            </li>
+ 
+        </ul>
+		
+<div id="search">
+		<form method="get" action="https://www.design-reuse.com/search/" style="top:0px; width:250px">
+<ul id="searchFilter"><li class="filterBtn" onclick="return true" title="search filter">
+<div class="searchDropdown">
+<fieldset>
+<legend>Choose a filter </legend>
+<ul id="searchOptions">
+<li><input id="areafull" type="radio" value="full" name="area"><label for="areafull">Full Site Search</label></li>
+<li><input id="areasip" type="radio" value="sip" name="area"><label for="areasip">Silicon IP</label></li>
+<li><input id="areavip" type="radio" value="vip" name="area"><label for="areavip">Verification IP</label></li>
+<li><input id="areahds" type="radio" value="hds" name="area"><label for="areahds">Software IP</label></li>
+<li><input id="areanews" type="radio" value="news" name="area"><label for="areanews">News</label></li>
+<li><input id="areaarticle" type="radio" value="articles" checked="checked" name="area"><label for="areaarticle">Industry Articles</label></li>
+</ul>
+</fieldset>
+</div>
+</li>
+</ul>
+<input id="i" name="i" class="inset " type="text" maxlength="255" placeholder="Search Industry Articles" required="">
+<input class="magBtn" type="submit" value="Search D&amp;R site" title="search">
+</form></div>
+
+    </div>
+</div>
+
+
+<div id="section">
+<div id="global">
+
+
+<!--/sphider_noindex--> 
+
+<div id="content">
+ <div id="left800">
+<h1>Method for Booting ARM Based Multi-Core SoCs</h1>
+<div id="wrapleft500">
+<div id="left500" class="bluelink">
+ 
+		  
+
+
+
+
+				
+
+<p><em>Amitav Halder, Arunendra Tomar, Umesh Pratap, Arun Jain (Freescale Semiconductor India Pvt. Ltd.)</em></p> <p><strong>Introduction :</strong></p> <p>Boot
+ process is the process in which any SoCs takes various device 
+configurations (trim bit, device security settings, boot vector 
+location) and memory initialization (like FLASH/SRAM/GRAM) is done after
+ reset lifting. In the boot process various modules/peripherals (like 
+clock controller or security handing module and other master/slaves) 
+initialized as per the SoC architecture and customer applications. In 
+Multi core SoCs, first primary core (also called booting core) start up 
+in boot process and then secondary cores are enabled by software.</p> <p> The boot process begins at <strong>Power On Reset (POR)</strong>
+ where the hardware reset logic forces the ARM core (Cortex M series) to
+ begin execution starting from the on-chip Boot ROM. The Boot ROM code 
+uses the given boot select options as well as the state of various 
+FUSE/straps and GPIO settings to determine the boot flow behavior of the
+ SOC.</p> <p> <strong>What are multi core SoCs:</strong></p>  <p>Multi Core SoCs have more than one processor where each processor has its own specific application.</p> <p>In
+ complex SoC like networking/Automobile application ,Most of the 
+industries SoC integrates primary core (Booting core) 
+,application/system core , networking cores on a single die to handle 
+various data from different peripherals (Master/Slave) .Primary core is 
+the heart of any SoC that handles the booting and maximum functionality 
+but for heavy traffic data (Ethernet/TDM) and high 
+frequencies(CSI-2,QSPI) applications, we need to have specific 
+application core such as CORTEX-A cores to process the data .</p> <p> <a href="https://www.design-reuse.com/exit/?urlid=29284" rel="nofollow"><img alt="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/20150831_1.jpg" longdesc="https://www.design-reuse.com/news_img15/20150831_1.jpg" class="" width="485" height="241"><br> Click to enlarge</a></p> <p>   Fig1: Architecture for multicore SoCs</p> <p> <strong>Booting Flow for multi core SoCs:</strong></p> <p>When
+ the device gets POR, the primary core jump to reset vector location. 
+The reset vector is the location is mapped to the ROM start address 
+(also called boot ROM), from where the core will start execution after 
+POR. ARM processors (like Cortex-M series) use a reset vector located 
+either at 0x00000000. The decision is made through a configuration input
+ signal and hence can vary between different SoCs.</p> <p> Once primary 
+core (like ARM Coretx-M) is out of reset it will start executing from 
+memory address location 0x00000000. The primary core loads the program 
+counter and starts executing from address 0xSP(Primary core stack 
+pointer , inside ROM at 0xSP location it’s stack pointer will be loaded)
+ which instructs the core to load its reset handler (stack pointer, 
+vector table) and read <strong>processor Start Address(PSA)</strong> to get application boot address and jump to that location.</p> <p> At the <strong>PSA</strong>, the hex file or image is loaded by boot loader. This address can be of SRAM/GRAM or FLASH.</p> <p>CORE will execute the Image/.hex from PSA which is likely to load at SRAM/GRAM or FLASH as directed by Boot Loader.</p> <p>The
+ loading of Image/.hex into memory (FLASH/SRAM/GRAM) is done by boot 
+loader. This loader can be inbuilt with BOOT ROM or can be external 
+loader.</p> <p><strong>In SoC verification, the hex file/image is 
+generated from .c file(pattern) by compiler -&gt; assembler -&gt; 
+linker-&gt;.ELF-&gt;.HEX.</strong></p> <p> <a href="https://www.design-reuse.com/exit/?urlid=29285" rel="nofollow"><img alt="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/20150831_2.jpg" longdesc="https://www.design-reuse.com/news_img15/20150831_2.jpg" class="" width="485" height="237"><br> Click to enlarge</a></p> <p><em>Fig2: Booting sequence of primary core in Multicore SoCs</em></p> <p>Primary
+ core already Boot up and ready to remove the rest for RESET for other 
+peripheral as well as secondary core as by default secondary core is 
+disabled which is enabled by software.</p> <p>Once software decides to 
+enable the secondary core, the corresponding registers (depends on SoC 
+architecture, which enable secondary core and clock controlling 
+registers) needs to be programmed using the primary core .Once secondary
+ core is enabled, this will start fetching data from the reset vector 
+location (which will be different that was for primary core like reset 
+vector location for primary core is 0x00000000 than for secondary core 
+the reset vector location can be 0x00000004).</p> <p>Actually Secondary 
+core also boot from 0x00000000 and by using the virtualization concept 
+(Memory mapping from 0x00000000 to 0x00000004) or bus probing concept, 
+it has to map on 0x00000000 address to 0x00000004 and fetch first 
+instruction form this address as well .</p> <p>Now secondary core loads 
+the program counter and starts executing from address 0xSP(Secondary 
+core stack pointer) which instructs the core to load its reset handler 
+(stack pointer, vector table) and read PSA to get application boot 
+address and jump to that location.</p>   <p><a href="https://www.design-reuse.com/exit/?urlid=29286" rel="nofollow"><img alt="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/20150831_3.jpg" longdesc="https://www.design-reuse.com/news_img15/20150831_3.jpg" class="" width="485" height="238"><br> Click to enlarge</a></p> <p><em>Fig3: Booting sequence of secondary cores in multicore SoCs</em></p>   <p> <a href="https://www.design-reuse.com/exit/?urlid=29287" rel="nofollow"><img alt="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/20150831_4.jpg" longdesc="https://www.design-reuse.com/news_img15/20150831_4.jpg" class="" width="485" height="225"><br> Click to enlarge</a></p> <p><em>Fig4: Multi core enabled</em></p> <p>
+ There are separate Image/.hex for primary core and secondary core. The 
+Image/.hex should store different memory locations (i.e.GRAM/SRAM/FLASH)
+ for all core . This indicates that the PSA is different for all the 
+cores. This setup is the part of SoCs architecture and decided by the 
+linker files for all the cores. For example the linker file which tells 
+the Image/.hex files addresses and starting address will be PSA .</p>   <p>For example: Image/hex start and end addresses generated according to linker file.</p>   <p><em>CORE1-0X3E800000-0X3E80FFFF</em><br><em>CORE2-0X3E810000-0X3E81FFFF</em><br><em>CORE3- ….. </em></p> <p>       </p> <p><strong>What is Boot loader :</strong></p> <p>Depending
+ on SoC architecture and implementation, boot loader can be a part of 
+boot ROM or outside the boot ROM.Boot loader is program which loads the 
+image/hex into the memory as per Fuse/straps configuration. Boot loader 
+is a program which has the data structure of all the peripheral and 
+booting interfaces. Boot loaders are highly core and board specific. 
+Boot loader will be executed on POR to SoC.</p> <p><strong>Responsibilities of Bootrom:</strong></p> <ul><li> Performs the essential initialization including programming the PLL,clocks, stacks, interrupt set up, watchdog timers etc.</li> <li> Enable the different L1 cache .</li> <li> Configures I/O elements and pin multiplexing based on the Fuses/Straps pin value.</li> <li> Initializes the flash controller to default settings.</li> <li>
+ Load user code from flash (NOR, NAND), external memory, SD/MMC, USB or 
+UART. Boot order and options are set by fuses/straps pins.</li> </ul><p> <strong>Features of the ROM include:</strong></p> <ul><li> Support for booting from various boot devices</li> <li> Serial Downloader support (USB, Flex CAN and UART etc.)</li> <li> Primary Boot Data (Configuration Data for initial interfaces)</li> <li> Wakeup from low-power modes</li> <li> Wakeup secondary core</li> </ul><p><strong>Boot ROM can supports the following boot devices:</strong></p> <ul><li> Flash</li> <li> SD/MMC</li> <li> QuadSPI</li> <li> Serial ROM devices (through I2C and SPI interfaces)</li> <li> PCI/USB/UART etc.</li> </ul><p> <strong>Reset vector table or reset handler:</strong></p> <p>When
+ the processor has been reset, it will start execution at the location 
+of the reset vector within the exception vector table (at address 
+0x00000000).</p> <p>The reset handler code meets the below purposes.</p> <ul><li> In the multi core architecture , put the all secondary cores into sleep/disabled</li> <li> Initialization of exception vectors</li> <li> Memory/Cache/TLB initialization</li> <li> Stack and processor mode registers initialization</li> <li> Perform necessary initialization of IO devices and enable interrupt</li> </ul><p> Typical vector table for ARM M-Series Core:</p> <p> <img alt="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/20150831_5.jpg" longdesc="https://www.design-reuse.com/news_img15/20150831_5.jpg" class="" width="487" height="128"></p> <p> <strong>Challenges and Issues in boot sequence:</strong></p> <p>The following are major challenges and issues associated with boot sequence.</p> <p><strong>1. Synchronization among cores</strong>: In SoC design to have the information whether how many cores are present at boot time? Which core is the primary core?</p> <p>If
+ all of the cores come out of reset at the same time, they normally all 
+start executing from the same reset vector. The boot code then reads the
+ cluster ID to determine which core is the primary. The primary core 
+performs the initialization and then signals to the secondary ones that 
+everything is ready. An alternative method is to hold the secondary 
+cores in reset while the primary core does the initialization. This 
+method requires hardware support to coordinate the reset. The CP15: 
+MPIDR Multiprocessor Affinity Register provides an identification 
+mechanism in a multi-core system.</p> <p><strong>2. Stack setup issue</strong>:
+ Typically, in a single-core system, a startup stack is initialized to 
+jump into BootROM. Later, the system stack is initialized and the whole 
+system uses that stack. When supporting a multicore system, one approach
+ might be to have each core repeat the temporary and system stack 
+operations. However, a better approach is to setup one primary core as 
+the system stack for all of the cores. This will reduce the 
+initialization code on the secondary cores.</p> <p><strong>3. Boot a processor with uninitialized memory at address zero or reset vector :</strong></p> <p>At Reset, processors always boot from a reset vector location at address zero.</p> <p>With
+ uninitialized memory at address zero (for example, unprogrammed Flash 
+or uninitialized GRAM/SRAM), the processor will read a spurious initial 
+Main Stack Pointer value from address 0x0 and a spurious code entry 
+point from this address, possibly containing an illegal instruction set 
+state specifier (ESPR.T bit) in bit[0].</p> <p>The processor may lock up
+ immediately, or may execute some spurious opcodes, though in the latter
+ case, lock-up remains a possible outcome.</p> <p><strong>4. More than one core to share the same boot ROM at same reset vector :</strong></p> <p>It
+ is not usual for more than one core to share the same boot ROM at 
+address 0x0, as this would imply that more than one core would boot up 
+with the same initial Main Stack Pointer (MSP) address, which would lead
+ to stack corruption (including NMI or any Fault exception).</p> <p> <strong>Strategic approach to handle the challenges during boot up sequence for SoC:</strong></p> <p>
+ To overcome the above issues the linker file for all the cores in 
+multicore SoCs must be updated accordingly. There is separate linker for
+ each core. A typical linker file have the information regarding the 
+addresses in Image/hex i.e. what will be the start address and range for
+ the Hex/image file to be generated, Also have stack related 
+information. The linker file setup depends on SoC architecture.</p> <p>ARM linker file looks like as shown below:</p> <p> <img alt="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/20150831_6.jpg" longdesc="https://www.design-reuse.com/news_img15/20150831_6.jpg" class="" width="449" height="373"></p> <p>
+ The primary core and secondary core initialization sequence is must be 
+controlled so that there would not stack corruption. So first the 
+primary core must be initialized (keeping other in reset/halt) and than 
+other core.</p>   <p><strong>Conclusion:</strong></p> <p>VLSI chip 
+design industries are moving toward more and more complex design in 
+single silicon which integrates the multiples cores as well.Multi core 
+booting sequence helps to understand, How actually SoC works and what 
+are the sequence of SoC wakeup once POR assert .Here in this paper, we 
+have discussed about Multi core booting sequence in ARM based SoC and 
+relevant description about</p> <p>BOOT ROM, Boot loader, Image/hex 
+generation using linker file, Boot options (boot from different devices 
+like SPI/SDIO/PCI etc) .Also talked about multi core boot form various 
+memories (SRAM/GRAM/FLASH). Apart from those also discussed the 
+challenges and faced issues during multi core booting at initial level 
+and approaches to handle those issues/challenges. </p> <p> <strong>References:</strong></p> <p><a href="https://www.design-reuse.com/exit/?urlid=1497" rel="nofollow">http://www.design-reuse.com/articles/37754/building-process-for-the-c-c-program-on-complex-socs.html</a></p> <p><a href="https://www.design-reuse.com/exit/?urlid=1498" rel="nofollow">http://community.arm.com/message/6155</a></p> <p><a href="https://www.design-reuse.com/exit/?urlid=1499" rel="nofollow">http://twins.ee.nctu.edu.tw/courses/ip_core_02/index.html</a> [2] ARM System-on-Chip Architecture by S.Furber, Addison Wesley Longman: ISBN 0-201-67519-6. [3]</p> <p><a href="https://www.design-reuse.com/exit/?urlid=1500" rel="nofollow">http://blog.techveda.org/arm-linux-booting-process</a></p> <p><a href="https://www.design-reuse.com/exit/?urlid=1501" rel="nofollow">http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0425/ch04s07s01.html</a></p>	<!--sphider_noindex--> 
+
+	<br><br>  		<style>
+		table#contactprov, table#contactprov td
+		{
+		padding:0px!important;
+		border-collapse:collapse!important; 
+		border:1px solid black;
+		}
+		table.hidden, table.hidden td
+		{
+		padding:0px!important;
+		border-collapse:collapse!important; 
+		border:0!important;
+		}
+	
+		</style>
+
+	
+<br><br>  
+
+
+	<div style="text-align: center;" class="hide560">
+	<table id="contactprov" width="380" cellspacing="0" cellpadding="0" bordercolor="#666666" border="1">
+	<tbody><tr><td>
+    	<table class="hidden" cellspacing="0" cellpadding="0" border="0">
+	<!-- top image -->
+	<tbody><tr>
+    	<td colspan="3" style="text-align: left;">
+    	<img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/resource_centerHeader.gif" alt="" width="380" height="25" border="0">
+	</td>
+    	</tr>
+
+    	<!-- left side spacer -->
+    	<tr>
+    	<td>&nbsp;&nbsp;&nbsp;
+    	</td>
+    	<td style="text-align: left;">
+    	<h3>
+    	Contact Freescale Semiconductor    	</h3>
+
+	<form name="ipdb" method="post" action="https://www.design-reuse.com/articles/38128/method-for-booting-arm-based-multi-core-socs.html">
+	<input type="hidden" name="mode" value="send">
+	<input type="hidden" name="id" value="38128">
+	<input type="hidden" name="action" value="send">
+	<b>
+	Fill out this form for contacting a <i> Freescale Semiconductor </i> representative.<br><br>
+    	</b>
+    	<p style="text-align: center;">
+    	</p><table class="hidden" cellspacing="2" cellpadding="2" border="0">
+
+	<tbody><tr><td nowrap="nowrap">Your Name:</td>
+    	<td><input type="text" name="name" size="40"></td></tr>
+
+   	<tr><td nowrap="nowrap">Your E-mail
+    	address:</td>
+    	<td><input type="text" name="email" size="40"></td></tr>
+
+   	<tr><td nowrap="nowrap">Your Company
+    	address:</td>
+    	<td><input type="text" name="company" size="40"></td></tr>
+
+   	<tr><td nowrap="nowrap">Your Phone Number:</td>
+    	<td><input type="text" name="phone" size="40"></td></tr>
+
+
+    	<tr><td colspan="2">Write your message:</td></tr>
+
+    	<tr><td colspan="2" align="right"><textarea name="message" rows="10" cols="40" wrap="virtual"></textarea></td></tr>
+	
+    	<tr><td colspan="2" align="right"><input type="submit" value="send">
+    	</td></tr>
+    	</tbody></table>
+
+    	<p></p>
+    	</form>
+
+
+	</td>
+    	<td>&nbsp;&nbsp;&nbsp;
+    	</td>
+
+	</tr>
+
+    	</tbody></table>
+
+    	</td>
+    	</tr>
+    	</tbody></table>
+    	
+    	<br>
+    	<br>
+
+	</div>
+
+
+
+
+       
+<br><br>     
+
+
+<br><br>     
+<script type="text/javascript">      
+function page_info(text) 
+{
+	windows = window.open(text,"description", "scrollbars=yes,width=520,height=500");
+}
+</script>
+
+<br><br>
+
+	
+  
+
+
+<script type="text/javascript">      
+//<!--
+function sendbyemail() 
+   {
+
+    var id  = "38128";
+    var url  = "//www.design-reuse.com/articles/sendbyemail.php?id=";
+    windows = window.open(url  + id,"description", "scrollbars=yes,width=570,height=500");
+   }
+//-->
+</script>
+
+<script type="text/javascript">
+//<!--	
+	
+			
+	function GoOutside(url) {
+		newsid = 38128 ;
+		location.href = "//www.design-reuse.com/articles" + "/exit/?id=" + newsid  + "&url=" + url;
+		return false;
+	}
+	
+
+			
+//-->
+</script>
+
+<!--/sphider_noindex-->
+
+
+</div>
+
+</div>
+
+
+	<!--sphider_noindex--> 
+	<div id="middle300">
+	<div style="margin-top: 15px;"> 
+
+<ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html%3Futm_medium%3Dfa%26utm_source%3Dwebsite&amp;t=Method+for+Booting+ARM+Based+Multi-Core+SoCs" title="Share on Facebook" target="_blank"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html%3Futm_medium%3Dtw%26utm_source%3Dwebsite&amp;text=Method+for+Booting+ARM+Based+Multi-Core+SoCs:%20https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html&amp;via=designreuse" target="_blank" title="Tweet"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/twitter.png"></a></li>
+  <li><a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html%3Futm_medium%3Dgo%26utm_source%3Dwebsite" target="_blank" title="Share on Google+"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/google.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html%3Futm_medium%3Dli%26utm_source%3Dwebsite&amp;title=Method+for+Booting+ARM+Based+Multi-Core+SoCs&amp;source=%2F%2Fwww.design-reuse.com%2F" target="_blank" title="Share on LinkedIn"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/linkedin.png"></a></li>
+</ul>
+ <br></div>
+
+	 
+		<div class="gradient">
+		<h3 class="oswald" style="margin-bottom: 15px;"><a href="https://www.design-reuse.com/sip/" style="color:#E41129;">Search Silicon IP</a></h3>
+		<div class="type1 bluelink">
+		<div style="font-size: 12px; color:black;">16,000 IP Cores from 450 Vendors</div>
+		<form method="get" action="https://www.design-reuse.com/sip/" name="formsip" style="padding:6px">
+		<input class="searchip-text" type="text" id="qsip" name="q" onblur="if (this.value == '') {this.value = 'Enter Keywords....';}" onfocus="if(this.value == 'Enter Keywords....') {this.value = '';}" value="Enter Keywords...." style="float: left;">
+		<input type="submit" class="searchip" alt="Search Design-Reuse.com">
+		</form>
+				</div>
+		<div class="spaceboy" style="clear:both">&nbsp;</div>
+		</div>
+	
+	
+
+
+		
+		
+	<div class="bloc300 gradient">
+			  <h3 class="oswald" style="margin-bottom: 15px;">Related Articles</h3>
+			 <div> 
+
+	<div class="type1">
+
+
+	<ul class="arrowList1" style="line-height: 13px; height: auto; border-bottom: 0px">
+	
+
+<li><a href="https://www.design-reuse.com/articles/19597/multi-core-video-processor-ip.html">
+Build low power video SoCs with programmable multi-core video processor IP</a></li>
+
+<li><a href="https://www.design-reuse.com/articles/6145/multi-core-multi-threaded-socs-pose-debugging-hurdles.html">
+Multi-core multi-threaded SoCs pose debugging hurdles</a></li>
+
+<li><a href="https://www.design-reuse.com/articles/41384/debugging-hard-faults-in-arm-cortex-m0-based-socs.html">
+Debugging hard faults in ARM Cortex-M0 based SoCs</a></li>
+
+<li><a href="https://www.design-reuse.com/articles/37939/record-throughput-multi-core-processor-for-satellites.html">
+Chips in Space -- MacSpace, A Record Throughput Multi-Core Processor for Satellites</a></li>
+
+<li><a href="https://www.design-reuse.com/articles/35991/creating-core-independent-stimulus-in-a-multi-core-soc-verification-environment.html">
+Creating core independent stimulus in a multi-core SoC verification environment</a></li>
+
+
+	</ul>
+	</div></div>
+	<div class="spaceboy" style="clear:both">&nbsp;</div>
+			<div class="txtR">
+		<a class="fcTheme ud" style="color:#E41129;" href="https://www.design-reuse.com/articles/provider376.html">See Freescale Semiconductor Latest Articles &gt;&gt;</a>
+		</div>
+		</div>
+
+	
+			<div class="bloc300 gradient">
+		  <h3 class="oswald" style="margin-bottom: 15px;">New Articles</h3>
+		 <div> 
+
+		<div class="type1">
+
+
+		<ul class="arrowList1" style="line-height: 13px; height: auto; border-bottom: 0px">
+		<li>
+				<a href="https://www.design-reuse.com/articles/52114/four-ways-to-build-a-cad-flow-in-house-design-to-custom-eda-tool.html" target="_top">Four ways to build a CAD flow: In-house design to custom-EDA tool</a>
+				</li>
+<li>
+				<a href="https://www.design-reuse.com/articles/52037/understanding-interface-analog-to-digital-converters-adcs-with-datastorm-daq-fpga.html" target="_top">Understanding Interface Analog-to-Digital Converters (ADCs) with DataStorm DAQ FPGA</a>
+				</li>
+<li>
+				<a href="https://www.design-reuse.com/articles/52036/how-to-achieve-better-iot-security-in-wi-fi-modules.html" target="_top">How to achieve better IoT security in Wi-Fi modules</a>
+				</li>
+<li>
+				<a href="https://www.design-reuse.com/articles/52015/cadence-pcie-6-0-ip.html" target="_top">成熟的PCIe 6.0 IP可极大降低复杂系统开发难度</a>
+				</li>
+<li>
+				<a href="https://www.design-reuse.com/articles/52010/why-advanced-dsps-running-rtoss-are-an-ideal-match-for-the-iot.html" target="_top">Why advanced DSPs running RTOSs are an ideal match for the IoT</a>
+				</li>
+
+		</ul>
+		</div></div>
+		<div class="spaceboy" style="clear:both">&nbsp;</div>
+	<div class="txtR">
+		<a class="fcTheme ud" style="color:#E41129;" href="https://www.design-reuse.com/articles/">See New Articles &gt;&gt;</a>
+		</div>
+		</div>
+	
+		<div class="bloc300 gradient">
+			  <h3 class="oswald" style="margin-bottom: 15px;">Most Popular</h3>
+			 <div> 
+
+	<div class="type1">
+
+
+	<ol>
+
+					<li class=""><a href="https://www.design-reuse.com/articles/25090/dynamic-memory-allocation-fragmentation-c.html" target="_top">
+				Dynamic Memory Allocation and Fragmentation in C and C++				</a></li>
+
+							<li class=""><a href="https://www.design-reuse.com/articles/45979/system-verilog-macro-a-powerful-feature-for-design-verification-projects.html" target="_top">
+				System Verilog Macro: A Powerful Feature for Design Verification Projects				</a></li>
+
+							<li class=""><a href="https://www.design-reuse.com/articles/44987/system-verilog-assertions-simplified.html" target="_top">
+				System Verilog Assertions Simplified				</a></li>
+
+							<li class=""><a href="https://www.design-reuse.com/articles/10907/using-systemverilog-assertions-in-rtl-code.html" target="_top">
+				Using SystemVerilog Assertions in RTL Code				</a></li>
+
+							<li class=""><a href="https://www.design-reuse.com/articles/41504/design-rule-checks-drc-a-practical-view-for-28nm-technology.html" target="_top">
+				Design Rule Checks (DRC) - A Practical View for 28nm Technology				</a></li>
+
+			
+	</ol>
+	</div></div>
+	<div class="spaceboy" style="clear:both">&nbsp;</div>
+	<div class="txtR">
+		<a class="fcTheme ud" style="color:#E41129;" href="https://www.design-reuse.com/articles/mostpopular">See the Top 20 &gt;&gt;</a></div>
+
+	</div>
+	
+	
+	<table style="text-align: center;" class="hidden">
+<tbody><tr><td>
+<a href="javascript:sendbyemail()">
+<img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/icn_emailarticle.gif" alt="" width="24" height="24" border="0">
+</a></td>
+<td><a href="javascript:sendbyemail()" style="font-size:9px">
+E-mail This Article
+</a></td>
+<td><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/spacer.gif" alt="" width="20" height="24" border="0">
+</td>
+<td><a href="https://www.design-reuse.com/articles/?id=38128&amp;print=yes">
+<img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/icn_print.gif" alt="" width="24" height="24" border="0">
+</a>
+</td>
+<td><a href="https://www.design-reuse.com/articles/?id=38128&amp;print=yes" style="font-size:9px">
+Printer-Friendly Page</a>
+</td>
+</tr>
+</tbody></table>
+	
+	</div>
+	</div>
+
+	<!--/sphider_noindex-->
+
+</div>
+	<div id="right135">
+	<!--sphider_noindex-->
+	<ins data-revive-zoneid="5" data-revive-id="29233ba5e5eaab276b45ed91c198a0f2" data-revive-seq="0" id="revive-0-0" data-revive-loaded="1" style="text-decoration: none;"><a href="https://www.us.design-reuse.com/adserver/www/delivery/cl.php?bannerid=4177&amp;zoneid=5&amp;sig=dfa8b2b393b2a6d2319fc2e2269439d01c45a47e52447b19e9ac2b8b7bfdb122&amp;oadest=https%3A%2F%2Fwww.design-reuse.com%2Fbanner%2Fexit.php%3Fid%3D27117" target="_blank"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/c1ce5ba2c8fe56e0abe71a3cad8e4134.gif" alt="" title="" width="125" height="125" border="0"></a><div id="beacon_d179de7351" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/lg_002.gif" alt="" style="width: 0px; height: 0px;" width="0" height="0"></div></ins>
+	<br><br>
+	<ins data-revive-zoneid="6" data-revive-id="29233ba5e5eaab276b45ed91c198a0f2" data-revive-seq="1" id="revive-0-1" data-revive-loaded="1"><iframe scrolling="no" allow="autoplay" style="border: 0px none; overflow: hidden;" srcdoc="&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;base target=&quot;_top&quot;&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;/head&gt;&lt;body border=&quot;0&quot; margin=&quot;0&quot; style=&quot;margin: 0;padding: 0;&quot;&gt;&lt;iframe src=&quot;https://static.designandreuse.com/banner_img/20220113-syno-S/&quot; width=&quot;120&quot; height=&quot;600&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;&lt;div id='beacon_5a98f84a19' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'&gt;&lt;img src='https://www.us.design-reuse.com/adserver/www/delivery/lg.php?bannerid=4475&amp;amp;campaignid=1097&amp;amp;zoneid=6&amp;amp;loc=https%3A%2F%2Fwww.design-reuse.com%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html&amp;amp;referer=https%3A%2F%2Fwww.google.com%2F&amp;amp;cb=5a98f84a19' width='0' height='0' alt='' style='width: 0px; height: 0px;' /&gt;&lt;/div&gt;&lt;body&gt;&lt;/html&gt;" width="120" height="600" frameborder="0"></iframe></ins>
+	<br><br>
+	
+<ins data-revive-zoneid="7" data-revive-id="29233ba5e5eaab276b45ed91c198a0f2" data-revive-seq="2" id="revive-0-2" data-revive-loaded="1" style="text-decoration: none;"><a href="https://www.us.design-reuse.com/adserver/www/delivery/cl.php?bannerid=4176&amp;zoneid=7&amp;sig=8247e1a287dd08925db55aa114b5a2fbd5afe7fdcef109cbd1a8e7a79432f5ff&amp;oadest=https%3A%2F%2Fwww.design-reuse.com%2Fbanner%2Fexit.php%3Fid%3D27119" target="_blank"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/8377912cde8bd096841bd245d1b4da07.gif" alt="" title="" width="125" height="125" border="0"></a><div id="beacon_09f5a84631" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/lg_003.gif" alt="" style="width: 0px; height: 0px;" width="0" height="0"></div></ins>
+	<br><br>
+		<!--/sphider_noindex-->
+	</div>
+
+<div class="clearBoth"></div>
+<div id="leaderboard2015">
+<ins data-revive-zoneid="3" data-revive-id="29233ba5e5eaab276b45ed91c198a0f2" data-revive-seq="3" id="revive-0-3" data-revive-loaded="1" style="text-decoration: none;"><a href="https://www.us.design-reuse.com/adserver/www/delivery/cl.php?bannerid=4511&amp;zoneid=3&amp;sig=f50aa4bea37cbaf29b8c05baf99a0a5c86586d78a6e21a4d4cf9ab0b97f635fb&amp;oadest=https%3A%2F%2Fwww.design-reuse.com%2Fbanner%2Fexit.php%3Fid%3D32659" target="_blank"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/a23b62db1bb515eb90cf9d7465f4d063.png" alt="" title="" width="728" height="90" border="0"></a><div id="beacon_be62e52762" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/lg_004.gif" alt="" style="width: 0px; height: 0px;" width="0" height="0"></div></ins>
+</div> 
+
+</div>
+
+
+ <div class="clearLeft"></div> 
+  </div>
+  
+  
+<div id="bandeauBasFooter"><div id="bandeauBasFooter2">
+    <div id="copyright">
+	<!--sphider_noindex-->
+	<p><strong>© 2022 Design And Reuse</strong></p> <p>All Rights Reserved.</p>
+	<p style="font-weight: normal;">No portion of this site may be copied, 
+retransmitted, reposted, duplicated or otherwise used without the 
+express written permission of Design And Reuse.</p> 
+	</div>
+<!--
+	<div class="colonne sansBordure">
+    <h4 style="font-size: 16px;">Give us your feedback</h4>
+	<p style="height:50px">Was this page helpful?<br/>Ask us a question or get help<br/><br/></p>
+		<div class="sitebutton">
+		<a href="/contact/" title="Talk to us" id="talktous"  rel="nofollow">Talk to us</a>					
+        </div>
+	</div>
+	-->
+                
+	<div class="colonne sansBordure">
+	<h4 style="font-size: 16px;">Partner with us</h4>
+	<p style="height:50px">
+	<br>
+	<br><br></p>
+				<div class="sitebutton">
+				<a href="https://www.design-reuse-embedded.com/join-dr/" id="talktous" rel="nofollow">Partner with us</a>
+				</div>
+	</div>             
+	
+	<div class="colonne hid980">
+	<h4 style="font-size: 16px;">List your Products</h4>
+	<p style="height:50px">Suppliers, list
+	your IPs for free.<br><br></p>
+				<div class="sitebutton">
+									<a href="https://www.design-reuse.com/map/providers/" id="addproducts">List your Products</a>
+
+						</div>
+	</div>
+
+	<div class="colonne">
+	<h4 style="font-size: 16px;">Design-Reuse.com</h4>
+	<ul>
+	<li class="puceBlancheMini"><a href="https://www.design-reuse.com/contact/">Contact Us</a></li>
+	<li class="puceBlancheMini"><a href="https://www.design-reuse.com/products/about.php">About us</a></li>
+	<li class="puceBlancheMini"><a href="https://www.design-reuse.com/partners/">D&amp;R Partner Program</a></li>
+	<li class="puceBlancheMini"><a href="https://www.design-reuse.com/ads/">Advertise with Us</a></li>
+	<li class="puceBlancheMini"><a href="https://www.design-reuse.com/privacy/">Privacy Policy</a></li>
+	</ul>
+	
+
+	</div>
+
+
+</div></div>
+
+
+
+</section></form>
+
+
+	<script type="application/javascript" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/staticdefault-20210423a.js"></script>
+	
+
+
+
+
+					<div id="flosensing"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/lg.gif" width="1" height="1"><img src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/38128.gif" width="1" height="1"></div>
+	<script type="text/javascript">
+	$( "#flosensing" ).append( "<img src=\"//www.design-reuse.com/flosensing/lg.php?url=%2Farticles%2F38128%2Fmethod-for-booting-arm-based-multi-core-socs.html&c=articles&action=view&prod=38128&prov=376&ref=https%3A%2F%2Fwww.google.com%2F\" width=\"1\" height=\"1\">");
+
+	</script>
+		
+			<script type="text/javascript">
+			$( "#flosensing" ).append( "<img src=\"//www.design-reuse.com/popularity/38128.gif\" width=\"1\" height=\"1\">");
+
+			</script>		
+			
+		
+	
+
+<script async="" src="Method%20for%20Booting%20ARM%20Based%20Multi-Core%20SoCs_files/asyncjs.php"></script>
+
+</body></html>

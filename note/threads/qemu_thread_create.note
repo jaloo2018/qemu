@@ -64,7 +64,6 @@ b qemu_thread_create
     (obj=0x7fff6eef5010, value=true, name=0x555555f9e68c "realized", errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1390
 #15 0x00005555559681b0 in sabrelite_init (machine=0x555556a5fa20)
     at /home/jaloo/v/qemu/qemu/qemu/hw/arm/sabrelite.c:55
---Type <RET> for more, q to quit, c to continue without paging--
 #16 0x0000555555aeff35 in machine_run_board_init (machine=0x555556a5fa20)
     at /home/jaloo/v/qemu/qemu/qemu/hw/core/machine.c:1140
 #17 0x00005555559c5b91 in qemu_init
@@ -117,7 +116,6 @@ b qemu_thread_create
     (obj=0x7fff6eef5010, value=true, name=0x555555f9e68c "realized", errp=0x7fffffffd470) at /home/jaloo/v/qemu/qemu/qemu/qom/object.c:1390
 #15 0x00005555559681b0 in sabrelite_init (machine=0x555556a5fa20)
     at /home/jaloo/v/qemu/qemu/qemu/hw/arm/sabrelite.c:55
---Type <RET> for more, q to quit, c to continue without paging--
 #16 0x0000555555aeff35 in machine_run_board_init (machine=0x555556a5fa20)
     at /home/jaloo/v/qemu/qemu/qemu/hw/core/machine.c:1140
 #17 0x00005555559c5b91 in qemu_init

@@ -1,0 +1,24 @@
+b aio_set_fd_handler
+fd: 8
+
+Thread 1 "qemu-system-arm" hit Breakpoint 1, aio_set_fd_handler (
+    ctx=0x555556a60080, fd=8, is_external=false, 
+    io_read=0x555555f192b5 <event_notifier_dummy_cb>, io_write=0x0, 
+    io_poll=0x555555f192c0 <event_notifier_poll>, opaque=0x555556a6014c)
+    at /home/jaloo/v/qemu/qemu/qemu/util/aio-posix.c:98
+98	    AioHandler *new_node = NULL;
+(gdb) bt
+#0  0x0000555555f1d459 in aio_set_fd_handler
+    (ctx=0x555556a60080, fd=8, is_external=false, io_read=0x555555f192b5 <event_notifier_dummy_cb>, io_write=0x0, io_poll=0x555555f192c0 <event_notifier_poll>, opaque=0x555556a6014c) at /home/jaloo/v/qemu/qemu/qemu/util/aio-posix.c:98
+#1  0x0000555555f1d77d in aio_set_event_notifier
+    (ctx=0x555556a60080, notifier=0x555556a6014c, is_external=false, io_read=0x555555f192b5 <event_notifier_dummy_cb>, io_poll=0x555555f192c0 <event_notifier_poll>) at /home/jaloo/v/qemu/qemu/qemu/util/aio-posix.c:186
+#2  0x0000555555f19569 in aio_context_new (errp=0x7fffffffd5d8)
+    at /home/jaloo/v/qemu/qemu/qemu/util/async.c:509
+#3  0x0000555555f1c251 in qemu_init_main_loop (errp=0x7fffffffd668)
+    at /home/jaloo/v/qemu/qemu/qemu/util/main-loop.c:161
+#4  0x00005555559c4a2e in qemu_init
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:3855
+#5  0x0000555555eb9f3c in main
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48

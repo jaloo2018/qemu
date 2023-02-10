@@ -1,0 +1,17 @@
+Available chardev backend types: 
+  serial
+  wctablet
+  vc
+  stdio
+  memory
+  testdev
+  file
+  ringbuf
+  msmouse
+  pipe
+  udp
+  mux
+  socket
+  pty
+  parallel
+  null

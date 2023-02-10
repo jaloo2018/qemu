@@ -1,0 +1,11 @@
+# Direct Linux Boot
+# file: qemu/docs/system/linuxboot.rst
+
+# Booting ARM Linux
+# file: linux/Documentation/arm/booting.rst
+
+# Booting AArch64 Linux
+# file: linux/Documentation/arm64/booting.rst
+
+# Method for Booting ARM Based Multi-Core SoCs
+# URL: https://www.design-reuse.com/articles/38128/method-for-booting-arm-based-multi-core-socs.html

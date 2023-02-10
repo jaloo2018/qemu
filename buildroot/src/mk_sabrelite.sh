@@ -39,9 +39,27 @@ echo "0" > /sys/devices/platform/soc/soc:busfreq/enable
 cat /sys/devices/platform/soc/soc\:busfreq/enable 
 # Bus frequency scaling is disabled
 
+# imx:busfreq: disable busfreq driver by default 
+# URL: https://git.congatec.com/arm/imx6_kernel_3.14/-/commit/ea53bf7f19c0e4c0e9d90d1e8b86616708e5867b
+output/build/linux-custom/arch/arm/mach-imx/busfreq-imx.c
+-	bus_freq_scaling_is_active = 1;
++	bus_freq_scaling_is_active = 0;
+	bus_freq_scaling_initialized = 1;
+
+# URL: https://stackoverflow.com/questions/50400698/buildroot-linux-kernel-clean-build
+make linux-rebuild
+
+# strace
+strace qemu-system-arm -M sabrelite -smp 4 -m 1G \
+    -display none -serial null -serial stdio \
+    -kernel output/images/zImage \
+    -append "root=/dev/ram0" \
+    -initrd output/images/rootfs.ext4 \
+    -dtb output/images/imx6q-sabrelite.dtb 2>&1 | tee jaloo.strace_imx6_src
+
 qemu-system-arm -M sabrelite -smp 4 -m 1G \
     -display none -serial null -serial stdio \
     -kernel output/images/zImage \
-    -dtb output/images/imx6q-sabrelite.dtb \
+    -append "root=/dev/ram0" \
     -initrd output/images/rootfs.ext4 \
-    -append "root=/dev/ram"
+    -dtb output/images/imx6q-sabrelite.dtb

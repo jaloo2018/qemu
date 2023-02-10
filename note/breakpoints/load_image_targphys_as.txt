@@ -1,0 +1,12 @@
+# hw/arm/boot.c
+/* Kernel boot protocol is specified in the kernel docs
+ * Documentation/arm/Booting and Documentation/arm64/booting.txt
+ * They have different preferred image load offsets from system RAM base.
+ */
+#define KERNEL_ARGS_ADDR   0x100
+#define KERNEL_NOLOAD_ADDR 0x02000000
+#define KERNEL_LOAD_ADDR   0x00010000
+#define KERNEL64_LOAD_ADDR 0x00080000
+
+b load_image_targphys_as
+

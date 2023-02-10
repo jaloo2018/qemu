@@ -1,0 +1,2 @@
+# file: drivers/tty/serial/imx.c
+static int imx_uart_probe(struct platform_device *pdev)

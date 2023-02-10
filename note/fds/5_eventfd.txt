@@ -1,0 +1,33 @@
+b eventfd
+fd: 5
+
+Thread 1 "qemu-system-arm" hit Breakpoint 1, eventfd (count=0, flags=526336)
+    at ../sysdeps/unix/sysv/linux/eventfd.c:28
+28	../sysdeps/unix/sysv/linux/eventfd.c: No such file or directory.
+(gdb) finish
+Run till exit from #0  eventfd (count=0, flags=526336)
+    at ../sysdeps/unix/sysv/linux/eventfd.c:28
+0x0000555555f1f59d in event_notifier_init (e=0x5555568025ac, active=0)
+    at /home/jaloo/v/qemu/qemu/qemu/util/event_notifier-posix.c:41
+41	    ret = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
+Value returned is $1 = 5
+(gdb) bt
+#0  0x0000555555f1f59d in event_notifier_init (e=0x5555568025ac, active=0)
+    at /home/jaloo/v/qemu/qemu/qemu/util/event_notifier-posix.c:41
+#1  0x0000555555f19493 in aio_context_new (errp=0x555556760f78 <error_abort>)
+    at /home/jaloo/v/qemu/qemu/qemu/util/async.c:498
+#2  0x0000555555f1c6e1 in iohandler_init ()
+    at /home/jaloo/v/qemu/qemu/qemu/util/main-loop.c:327
+#3  0x0000555555f1c6f4 in iohandler_get_aio_context ()
+    at /home/jaloo/v/qemu/qemu/qemu/util/main-loop.c:333
+#4  0x0000555555d56881 in monitor_init_globals_core ()
+    at /home/jaloo/v/qemu/qemu/qemu/monitor/monitor.c:609
+#5  0x00005555559b9095 in monitor_init_globals ()
+    at /home/jaloo/v/qemu/qemu/qemu/monitor/misc.c:2212
+#6  0x00005555559c2602 in qemu_init
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/vl.c:2910
+#7  0x0000555555eb9f3c in main
+    (argc=21, argv=0x7fffffffd948, envp=0x7fffffffd9f8)
+    at /home/jaloo/v/qemu/qemu/qemu/softmmu/main.c:48
+
